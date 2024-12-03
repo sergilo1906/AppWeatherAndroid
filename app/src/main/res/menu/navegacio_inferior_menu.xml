@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_inici"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Temps" />
+    <item
+        android:id="@+id/nav_notificacions"
+        android:icon="@android:drawable/ic_popup_reminder"
+        android:title="Notificacions" />
+    <item
+        android:id="@+id/nav_configuracio"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="Configuració" />
+</menu>
