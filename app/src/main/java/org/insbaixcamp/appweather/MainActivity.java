@@ -4,14 +4,18 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -21,12 +25,15 @@ import okhttp3.Response;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
 
-    private FusedLocationProviderClient fusedLocationClient; // Client per gestionar la ubicació
-    private final String API_KEY = "d0bd38f37ceb34026fb1327ae0fbd7e7"; // Substitueix amb la teva clau real de l'API
+    private BottomNavigationView navegacioInferior;
 
-    // TextViews per mostrar informació
+    // Variables per gestionar la ubicació i l'API
+    private FusedLocationProviderClient fusedLocationClient;
+    private final String API_KEY = "d0bd38f37ceb34026fb1327ae0fbd7e7";
+
+    // TextViews per mostrar informació d'ubicació i resposta
     private TextView tvLatitude;
     private TextView tvLongitude;
     private TextView tvApiResponse;
@@ -36,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicialitza els TextView
+        // Inicialitza els TextViews
         tvLatitude = findViewById(R.id.tvLatitude);
         tvLongitude = findViewById(R.id.tvLongitude);
         tvApiResponse = findViewById(R.id.tvApiResponse);
@@ -44,8 +51,19 @@ public class MainActivity extends AppCompatActivity {
         // Inicialitza el client d'ubicació
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Sol·licita permisos per obtenir la ubicació
+        // Inicialitza la navegació inferior
+        navegacioInferior = findViewById(R.id.navegacioInferior);
+        navegacioInferior.setOnItemSelectedListener(this);
+
+        // Sol·licita permisos d'ubicació
         soliciarPermisosUbicacio();
+
+        // Carrega el fragment inicial només si és la primera càrrega
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new IniciFragment())
+                    .commit();
+        }
     }
 
     /**
@@ -59,9 +77,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Gestiona la resposta de l'usuari després de sol·licitar permisos
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -73,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Obté l'última ubicació coneguda del dispositiu
+     * Obté l'última ubicació coneguda
      */
     private void obtenirUltimaUbicacio() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -82,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                     double latitud = location.getLatitude();
                     double longitud = location.getLongitude();
 
-                    // Actualitza els TextView
                     tvLatitude.setText("Latitud: " + latitud);
                     tvLongitude.setText("Longitud: " + longitud);
 
@@ -96,19 +110,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Consulta l'API meteorològica utilitzant OkHttp3
+     * Consulta l'API meteorològica
      */
     private void consultarAPIMeteorologica(double latitud, double longitud) {
-        // Construeix l'URL per a la consulta
         String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&appid=" + API_KEY + "&units=metric";
 
-        // Crea el client OkHttp
         OkHttpClient client = new OkHttpClient();
-
-        // Crea la sol·licitud HTTP
         Request request = new Request.Builder().url(url).build();
 
-        // Envia la sol·licitud en segon pla
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -121,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     String resposta = response.body().string();
                     Log.d("API", "Resposta de l'API: " + resposta);
-
-                    // Actualitza el TextView amb la resposta de l'API
                     runOnUiThread(() -> tvApiResponse.setText("Resposta de l'API: " + resposta));
                 } else {
                     Log.e("API", "Resposta no vàlida. Codi: " + response.code());
@@ -130,5 +137,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment = null;
+        int id = item.getItemId();
+
+        if (id == R.id.nav_inici) {
+            fragment = new IniciFragment();
+        } else if (id == R.id.nav_notificacions) {
+            fragment = new NotificacionsFragment();
+        } else if (id == R.id.nav_configuracio) {
+            fragment = new ConfiguracioFragment();
+        }
+
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit();
+            return true;
+        }
+        return false;
     }
 }

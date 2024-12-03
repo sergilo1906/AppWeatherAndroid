@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="#FFFFFF">
+    tools:context=".MainActivity">
 
     <!-- Títol -->
     <TextView
@@ -13,8 +15,21 @@
         android:text="App del Temps"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Contenidor per als fragments -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toTopOf="@+id/navegacioInferior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <!-- Latitud -->
     <TextView
@@ -23,8 +38,10 @@
         android:layout_height="wrap_content"
         android:text="Latitud: "
         android:textSize="18sp"
-        android:layout_below="@id/tvTitle"
-        android:layout_marginTop="20dp" />
+        app:layout_constraintTop_toBottomOf="@id/fragment_container"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
 
     <!-- Longitud -->
     <TextView
@@ -33,8 +50,10 @@
         android:layout_height="wrap_content"
         android:text="Longitud: "
         android:textSize="18sp"
-        android:layout_below="@id/tvLatitude"
-        android:layout_marginTop="10dp" />
+        app:layout_constraintTop_toBottomOf="@id/tvLatitude"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
 
     <!-- Resposta de l'API -->
     <TextView
@@ -43,12 +62,25 @@
         android:layout_height="wrap_content"
         android:text="Resposta de l'API: "
         android:textSize="16sp"
-        android:layout_below="@id/tvLongitude"
-        android:layout_marginTop="20dp"
         android:padding="10dp"
         android:background="#EEEEEE"
         android:scrollbars="vertical"
         android:gravity="start"
         android:maxLines="10"
-        android:overScrollMode="always" />
-</RelativeLayout>
+        android:overScrollMode="always"
+        app:layout_constraintTop_toBottomOf="@id/tvLongitude"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Barra de navegació inferior -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navegacioInferior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:menu="@menu/navegacio_inferior_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
