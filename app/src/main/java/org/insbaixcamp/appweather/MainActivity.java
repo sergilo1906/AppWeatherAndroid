@@ -13,120 +13,132 @@ import androidx.core.app.ActivityCompat;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import java.io.IOException;
+import java.util.Locale;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-import java.io.IOException;
-
 public class MainActivity extends AppCompatActivity {
 
-    private FusedLocationProviderClient fusedLocationClient; // Client per gestionar la ubicació
-    private final String API_KEY = "d0bd38f37ceb34026fb1327ae0fbd7e7"; // Substitueix amb la teva clau real de l'API
+    // Variables globales
+    private FusedLocationProviderClient fusedLocationClient; // Cliente para obtener la ubicación
+    private final String API_KEY = "effd8c6d8cf06ebdebacda1bf50a6b0f"; // Sustituye por tu API key de OpenWeatherMap
 
-    // TextViews per mostrar informació
-    private TextView tvLatitude;
-    private TextView tvLongitude;
-    private TextView tvApiResponse;
+    // TextViews para mostrar datos
+    private TextView tvLatitude, tvLongitude, tvWeatherInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Inicialitza els TextView
+        // Inicializar los TextViews
         tvLatitude = findViewById(R.id.tvLatitude);
         tvLongitude = findViewById(R.id.tvLongitude);
-        tvApiResponse = findViewById(R.id.tvApiResponse);
+        tvWeatherInfo = findViewById(R.id.tvWeatherInfo);
 
-        // Inicialitza el client d'ubicació
+        // Inicializar cliente de ubicación
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        // Sol·licita permisos per obtenir la ubicació
-        soliciarPermisosUbicacio();
+        // Solicitar permisos de ubicación
+        solicitarPermisosUbicacion();
     }
 
     /**
-     * Sol·licita permisos d'ubicació a l'usuari
+     * Solicitar permisos de ubicación
      */
-    private void soliciarPermisosUbicacio() {
+    private void solicitarPermisosUbicacion() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
-            obtenirUltimaUbicacio();
+            obtenerUltimaUbicacion();
         }
     }
 
     /**
-     * Gestiona la resposta de l'usuari després de sol·licitar permisos
+     * Manejar respuesta del usuario al solicitar permisos
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            obtenirUltimaUbicacio();
+            obtenerUltimaUbicacion();
         } else {
-            Log.e("Permisos", "L'usuari ha denegat el permís d'ubicació.");
+            Log.e("Permisos", "Permiso de ubicación denegado.");
         }
     }
 
     /**
-     * Obté l'última ubicació coneguda del dispositiu
+     * Obtener la última ubicación conocida del dispositivo
      */
-    private void obtenirUltimaUbicacio() {
+    private void obtenerUltimaUbicacion() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
                 if (location != null) {
                     double latitud = location.getLatitude();
                     double longitud = location.getLongitude();
 
-                    // Actualitza els TextView
+                    // Actualizar los TextViews con la ubicación
                     tvLatitude.setText("Latitud: " + latitud);
                     tvLongitude.setText("Longitud: " + longitud);
 
-                    Log.d("Ubicació", "Latitud: " + latitud + ", Longitud: " + longitud);
+                    // Consultar API con la ubicación obtenida
                     consultarAPIMeteorologica(latitud, longitud);
                 } else {
-                    Log.e("Ubicació", "No s'ha detectat cap ubicació.");
+                    Log.e("Ubicacion", "No se pudo obtener la ubicación.");
                 }
             });
         }
     }
 
     /**
-     * Consulta l'API meteorològica utilitzant OkHttp3
+     * Consultar la API de OpenWeatherMap con idioma y unidades configuradas automáticamente
      */
     private void consultarAPIMeteorologica(double latitud, double longitud) {
-        // Construeix l'URL per a la consulta
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitud + "&lon=" + longitud + "&appid=" + API_KEY + "&units=metric";
+        // Detectar idioma y unidades según la configuración del dispositivo
+        String idioma = Locale.getDefault().getLanguage(); // Idioma del sistema
+        String pais = Locale.getDefault().getCountry(); // País del sistema
+        String unidades = pais.equals("US") ? "imperial" : "metric"; // Métricas: imperial para EE.UU., metric para el resto
 
-        // Crea el client OkHttp
+        // Construir la URL de la API
+        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitud +
+                "&lon=" + longitud +
+                "&appid=" + API_KEY +
+                "&units=" + unidades +
+                "&lang=" + idioma;
+
+        // Configurar cliente OkHttp
         OkHttpClient client = new OkHttpClient();
-
-        // Crea la sol·licitud HTTP
         Request request = new Request.Builder().url(url).build();
 
-        // Envia la sol·licitud en segon pla
+        // Enviar solicitud a la API
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("API", "Error en la consulta: " + e.getMessage());
-                runOnUiThread(() -> tvApiResponse.setText("Error en la consulta a l'API."));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 if (response.isSuccessful()) {
-                    String resposta = response.body().string();
-                    Log.d("API", "Resposta de l'API: " + resposta);
+                    String respuesta = response.body().string();
 
-                    // Actualitza el TextView amb la resposta de l'API
-                    runOnUiThread(() -> tvApiResponse.setText("Resposta de l'API: " + resposta));
+                    // Procesar y mostrar la respuesta
+                    runOnUiThread(() -> {
+                        try {
+                            // Mostrar datos crudos por ahora
+                            tvWeatherInfo.setText("Respuesta de la API:\n" + respuesta);
+                        } catch (Exception e) {
+                            tvWeatherInfo.setText("Error al procesar la respuesta.");
+                            Log.e("JSON", "Error al procesar JSON", e);
+                        }
+                    });
                 } else {
-                    Log.e("API", "Resposta no vàlida. Codi: " + response.code());
-                    runOnUiThread(() -> tvApiResponse.setText("Error: Codi de resposta " + response.code()));
+                    runOnUiThread(() -> tvWeatherInfo.setText("Error: Código de respuesta " + response.code()));
                 }
             }
         });
