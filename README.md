@@ -34,7 +34,7 @@ Aquí tens la divisió de tasques per a les parts d'ubicació i API, i la part d
 
 ---
 
-### **2. Part de disseny i notificacions push (Responsable: Biel)**
+### **2. Part de disseny (Responsable: Biel)**
 
 #### **A) Disseny de la interfície**
 1. Crear la interfície inicial:
@@ -52,7 +52,7 @@ Aquí tens la divisió de tasques per a les parts d'ubicació i API, i la part d
    - Pantalla de configuració per gestionar notificacions.
    - Pantalla de notificacions amb llistat d'alertes rebudes.
 
-#### **B) Notificacions push**
+### **3. notificacions push (Responsable: Biel i Sergi)**
 1. Configurar Firebase al projecte:
    - Crear un projecte a Firebase Console.
    - Configurar Firebase Cloud Messaging (FCM) al projecte d'Android Studio.
@@ -66,5 +66,3 @@ Aquí tens la divisió de tasques per a les parts d'ubicació i API, i la part d
    - Assegurar que els missatges es mostren correctament segons la configuració de l'usuari.
 
 ---
-
-Amb aquesta divisió, Sergi s'encarrega de la implementació tècnica de l'ubicació i la connexió amb l'API, mentre que Biel treballa en la part visual i de notificacions push. Si necessiteu més detalls sobre alguna tasca específica, avisa! 😊
