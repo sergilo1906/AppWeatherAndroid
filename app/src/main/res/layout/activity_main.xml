@@ -7,23 +7,80 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Títol -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="App del Temps"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Contenidor per als fragments -->
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintBottom_toTopOf="@+id/navegacioInferior"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
+    <!-- Latitud -->
+    <TextView
+        android:id="@+id/tvLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latitud: "
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/fragment_container"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp" />
+
+    <!-- Longitud -->
+    <TextView
+        android:id="@+id/tvLongitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Longitud: "
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tvLatitude"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp" />
+
+    <!-- Resposta de l'API -->
+    <TextView
+        android:id="@+id/tvApiResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resposta de l'API: "
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:background="#EEEEEE"
+        android:scrollbars="vertical"
+        android:gravity="start"
+        android:maxLines="10"
+        android:overScrollMode="always"
+        app:layout_constraintTop_toBottomOf="@id/tvLongitude"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <!-- Barra de navegació inferior -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navegacioInferior"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:menu="@menu/navegacio_inferior_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
