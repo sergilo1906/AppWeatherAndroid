@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos d'ubicació -->
+    <!-- Permisos necessaris -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- Permís per ubicació en segon pla (opcional, segons necessitats) -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,7 @@
         android:theme="@style/Theme.AppWeather"
         tools:targetApi="31">
 
+        <!-- Activitat principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -28,6 +30,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <!-- Nova activitat per cercar una ciutat -->
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true">
+        </activity>
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+
+
+        <!-- Servicio de Firebase Messaging -->
+
+
+    </application>
 </manifest>

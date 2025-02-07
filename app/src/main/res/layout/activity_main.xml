@@ -1,35 +1,62 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Mostrar latitud -->
+    <!-- Nombre de la ciudad -->
     <TextView
-        android:id="@+id/tvLatitude"
+        android:id="@+id/tvCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Latitud: "
-        android:textSize="16sp" />
+        android:layout_marginBottom="16dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-    <!-- Mostrar longitud -->
+    <!-- Temperatura -->
     <TextView
-        android:id="@+id/tvLongitude"
+        android:id="@+id/tvTemperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvLatitude"
-        android:layout_marginTop="8dp"
-        android:text="Longitud: "
-        android:textSize="16sp" />
+        android:layout_marginBottom="8dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="48sp"
+        android:textStyle="bold" />
 
-    <!-- Mostrar información del clima -->
+    <!-- Descripción del clima -->
     <TextView
-        android:id="@+id/tvWeatherInfo"
-        android:layout_width="match_parent"
+        android:id="@+id/tvWeatherDescription"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvLongitude"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <!-- Icono del clima -->
+    <ImageView
+        android:id="@+id/imgWeatherIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Icono del clima" />
+
+    <!-- Botón para buscar ciudad -->
+    <Button
+        android:id="@+id/btnSearchCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buscar ciudad"
         android:layout_marginTop="16dp"
         android:padding="8dp"
-        android:background="#EEEEEE"
-        android:text="Información del clima:"
-        android:textSize="16sp" />
-</RelativeLayout>
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white" />
+
+    <!-- Botón para volver atrás -->
+
+</LinearLayout>

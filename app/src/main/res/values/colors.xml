@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Colores básicos -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="purple_500">#9C27B0</color> <!-- Color púrpura del botón flotante -->
+
+    <!-- Colores de fondo y texto -->
+    <color name="background">#F5F5F5</color> <!-- Color de fondo claro -->
+    <color name="text_primary">#212121</color> <!-- Texto principal (gris oscuro) -->
+    <color name="text_secondary">#757575</color> <!-- Texto secundario (gris claro) -->
+
+    <!-- Colores de la barra de navegación inferior -->
+    <color name="nav_item_selected">#9C27B0</color> <!-- Color púrpura para elementos seleccionados -->
+    <color name="nav_item_unselected">#BDBDBD</color> <!-- Gris claro para elementos no seleccionados -->
 </resources>

@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Camp per introduir el nom de la ciutat -->
+    <EditText
+        android:id="@+id/etCityName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Introdueix el nom de la ciutat"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botó de cerca -->
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cercar"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Nom de la ciutat -->
+    <TextView
+        android:id="@+id/tvCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ciutat"
+        android:textSize="24sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Temperatura -->
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0°C"
+        android:textSize="32sp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Descripció del clima -->
+    <TextView
+        android:id="@+id/tvWeatherDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clima"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Icona del clima -->
+    <ImageView
+        android:id="@+id/imgWeatherIcon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="Icona del clima" />
+    <!-- Botón para volver atrás -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tornar"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:backgroundTint="@color/purple_500"
+        android:textColor="@color/white" />
+</LinearLayout>

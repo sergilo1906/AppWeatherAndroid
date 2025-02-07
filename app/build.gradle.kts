@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -38,8 +39,10 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.play.services.location)
 
+
     // Dependència d'OkHttp
     implementation(libs.okhttp)
+    implementation(libs.firebase.messaging)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

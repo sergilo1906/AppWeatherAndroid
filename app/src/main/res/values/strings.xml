@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">AppWeather</string>
+        <!-- Nombre del canal -->
+        <string name="notification_channel_name">Alertas meteorológicas</string>
+        <string name="notification_channel_description">Canal para recibir alertas sobre el clima</string>
+
+        <!-- Textos predeterminados para notificaciones -->
+
+
+
 </resources>
